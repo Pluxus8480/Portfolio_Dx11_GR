@@ -1,0 +1,554 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="99.Defines">
+      <UniqueIdentifier>{8986c703-f875-4ab1-b3ba-99fe0f4e8fd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels">
+      <UniqueIdentifier>{6289ddb3-4dbe-49c7-b895-ce8d6ac41097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Logo">
+      <UniqueIdentifier>{047ce4bb-6aec-4555-bbee-fe177124cbb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\GamePlay">
+      <UniqueIdentifier>{f6d12fa7-fbd6-470e-bb1c-70ad0561fa17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Loading">
+      <UniqueIdentifier>{d93ca138-c2e8-41bd-a33f-1ced83a05fed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Loading\Loader">
+      <UniqueIdentifier>{4b75a938-8f7a-4c4d-86c6-9c9e82da2cf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects">
+      <UniqueIdentifier>{73c76020-4f24-4552-ba4e-7337c1688a2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\00.BackGround">
+      <UniqueIdentifier>{24af17fa-3a3f-4225-9899-4e135d0742ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles">
+      <UniqueIdentifier>{60ab4c00-fe91-4e9f-b836-789291649a90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Terrain">
+      <UniqueIdentifier>{46259792-7fda-4f58-a578-f2a8e294dcfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.Camera">
+      <UniqueIdentifier>{8c03078c-afd9-4ba3-84f4-b29d8651485a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.Camera\00.ThirdPersonView">
+      <UniqueIdentifier>{bb88a290-8f39-4d7e-9af9-36af742ad288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.Pawn">
+      <UniqueIdentifier>{e8e8ca37-c0a5-4cd6-b7a5-3e6a0e395ed2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\98.Ui">
+      <UniqueIdentifier>{b88b610f-fe07-478b-9eae-dc93169f5803}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.Pawn\00.PistolGunner">
+      <UniqueIdentifier>{1977eb3c-ae4b-4160-851c-4595f0e7a599}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\98.Ui\Skill">
+      <UniqueIdentifier>{bfc02641-e84c-4350-95e5-f31e301ff3e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\98.Ui\Skill\MainBackground">
+      <UniqueIdentifier>{e9c39ec4-2d12-4a6c-b77b-d0669e0f77ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\98.Ui\Skill\MainBorder">
+      <UniqueIdentifier>{8c891c1b-9f59-4a75-a780-ef8a3a5129ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\98.Ui\Skill\MainEnergyBar">
+      <UniqueIdentifier>{6a4a3948-6595-4fcc-93c2-676d680aa3a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\98.Ui\Skill\MainSkillIcon">
+      <UniqueIdentifier>{5dc8b683-9208-49df-9eec-2053fde8c3fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Controller">
+      <UniqueIdentifier>{ce4c7cc4-e0b8-474e-921c-a089c1ae318e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Controller\UiController">
+      <UniqueIdentifier>{0ec666e5-45e7-41bd-aea7-5cd7a6eaf2e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Controller\UiController\SkillUi">
+      <UniqueIdentifier>{d960825c-c31b-457f-8a73-a2d25c3b969a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\03.Player">
+      <UniqueIdentifier>{bdd70f49-7533-41e7-8f56-97a344ceb093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\03.Player\PlayerArm">
+      <UniqueIdentifier>{06752ce0-b727-45f5-896c-a7bd69a180a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\03.Player\Katana">
+      <UniqueIdentifier>{922aa015-da61-4088-bb8b-e1f3627f9e1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Tool">
+      <UniqueIdentifier>{b876e578-8524-46fe-b2a9-7804825d85ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Controller\MapController">
+      <UniqueIdentifier>{e07b918e-e1dc-46e4-bda3-f66385c56bd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\00.MainApp">
+      <UniqueIdentifier>{a685f55c-fc44-4b5b-a566-0f94d31a6851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95.Manager">
+      <UniqueIdentifier>{24b258ce-0689-4163-bede-675527a59321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95.Manager\00.PlayerManager">
+      <UniqueIdentifier>{42ad131e-1c22-4345-a970-dd80b511af7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95.Manager\01.GameManager">
+      <UniqueIdentifier>{f5ce6c21-f5df-4d11-a2e2-0bc630bff76f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97.Map">
+      <UniqueIdentifier>{c88f28cc-b6cf-4053-9ed0-9502e8f44761}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97.Map\00.KillRun">
+      <UniqueIdentifier>{37537f74-0092-4d3b-a619-253f4b8de342}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.Pawn\00.PistolGunner\Pistol">
+      <UniqueIdentifier>{10963ed4-9feb-448f-995d-bc6f83c490e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\96.SkyBox">
+      <UniqueIdentifier>{f91c39f5-0617-4e3d-8e1c-dd7f43d15041}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Default">
+      <UniqueIdentifier>{8c18f57c-4b42-4ccc-9257-38e52e2c70f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95.Manager\02.ObjectPoolManager">
+      <UniqueIdentifier>{31871ab5-1961-4c69-a60e-bb0b723cedb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\05.Effect">
+      <UniqueIdentifier>{f82b6f06-00a6-4441-bfe4-5634c6069e24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04.Projectile">
+      <UniqueIdentifier>{3211e7cf-94fe-4d83-9732-5983c5b0e0c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04.Projectile\Bullet">
+      <UniqueIdentifier>{cdafb6cf-800a-4473-b587-3d0dd97012c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.Camera\01.ToolCamera">
+      <UniqueIdentifier>{99cc82c6-8db6-4ed2-bafe-5be148211730}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.Pawn\02.Waver">
+      <UniqueIdentifier>{f550ca4e-faf2-47d3-bb51-062437d75ba6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04.Projectile\Beam">
+      <UniqueIdentifier>{bb2ada91-de79-4b4c-b830-0e54cd31ccd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\06.GraplingPoint">
+      <UniqueIdentifier>{af93aa26-6b99-403d-9c4b-99c42825807c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\95.Trail">
+      <UniqueIdentifier>{2a897cbd-e286-4745-a592-8be456c903a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\98.Ui\Skill\SkillIcon">
+      <UniqueIdentifier>{f9493354-98b5-46fe-9753-5c8ec5e2e845}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\98.Ui\Skill\SkillIconBack">
+      <UniqueIdentifier>{6ee4edbe-f943-4cce-9c14-539b80ba7049}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04.Projectile\ShockWave">
+      <UniqueIdentifier>{78f080b4-788c-488f-a906-cea3e248c982}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\98.Ui\Aim">
+      <UniqueIdentifier>{577a5836-1bcb-4ac6-8b72-31815eee906f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95.Manager\03.EnemyManager">
+      <UniqueIdentifier>{c04e4e94-67db-4bb9-b7a0-374410fe2a9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\05.Effect\Spark">
+      <UniqueIdentifier>{893a619f-50d3-4124-aa8b-d58104dc9f8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\05.Effect\Blood">
+      <UniqueIdentifier>{d5eeeade-e844-4044-81d6-de8082adddb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\GamePlay\Main">
+      <UniqueIdentifier>{b02838ca-8243-4e1c-bd51-1bf41eeb53f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\GamePlay\Lab">
+      <UniqueIdentifier>{c5992aaf-f44e-4593-94c5-5a01a9cd5253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97.Map\01.Lab">
+      <UniqueIdentifier>{038effe5-bb8b-40fb-8129-a89d8b8740da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.Pawn\01.Uzi">
+      <UniqueIdentifier>{30d71c6f-f1ff-4b90-9c50-4d7f16943696}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.Pawn\03.Samurai">
+      <UniqueIdentifier>{4fae89a9-581a-4830-ae02-2aef6120aead}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\GamePlay\Boss">
+      <UniqueIdentifier>{458e139c-8b99-4633-9bc5-b6c3121e4d78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.Pawn\04.Boss">
+      <UniqueIdentifier>{7ffcd926-a8d2-41f2-a37f-4bc2c5c62963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\97.Map\02.Last">
+      <UniqueIdentifier>{f34adac3-ec89-41c8-843b-cbe806f5016e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\98.Ui\HpBar">
+      <UniqueIdentifier>{e6670456-33da-4cbf-b8d7-6146fef82d5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\94.Wire">
+      <UniqueIdentifier>{0292b5d7-77f0-4e60-b4f9-6c676fe84a77}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Client.h">
+      <Filter>98.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>98.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>98.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>98.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MainApp.h">
+      <Filter>01.Levels\00.MainApp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Client_Defines.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Loading.h">
+      <Filter>01.Levels\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Logo.h">
+      <Filter>01.Levels\Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Loader.h">
+      <Filter>01.Levels\Loading\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BackGround.h">
+      <Filter>02.GameObjects\00.BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Terrain.h">
+      <Filter>02.GameObjects\01.Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_TPV.h">
+      <Filter>02.GameObjects\99.Camera\00.ThirdPersonView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PistolGunner.h">
+      <Filter>02.GameObjects\02.Pawn\00.PistolGunner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MainSkill.h">
+      <Filter>02.GameObjects\98.Ui\Skill\MainBackground</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MainBorder.h">
+      <Filter>02.GameObjects\98.Ui\Skill\MainBorder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SkillEnergyBar.h">
+      <Filter>02.GameObjects\98.Ui\Skill\MainEnergyBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MainSkillIcon.h">
+      <Filter>02.GameObjects\98.Ui\Skill\MainSkillIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Ui_Controller.h">
+      <Filter>96.Controller\UiController\SkillUi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PlayerArm.h">
+      <Filter>02.GameObjects\03.Player\PlayerArm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Client_Option.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Tool.h">
+      <Filter>01.Levels\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MapManager.h">
+      <Filter>96.Controller\MapController</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PlayerManager.h">
+      <Filter>95.Manager\00.PlayerManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GameManager.h">
+      <Filter>95.Manager\01.GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KillRunMap.h">
+      <Filter>02.GameObjects\97.Map\00.KillRun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sky.h">
+      <Filter>02.GameObjects\96.SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Pistol.h">
+      <Filter>02.GameObjects\02.Pawn\00.PistolGunner\Pistol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Katana.h">
+      <Filter>02.GameObjects\03.Player\Katana</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Bullet.h">
+      <Filter>02.GameObjects\04.Projectile\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Uzi.h">
+      <Filter>02.GameObjects\02.Pawn\01.Uzi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ObjPoolManager.h">
+      <Filter>95.Manager\02.ObjectPoolManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect.h">
+      <Filter>02.GameObjects\05.Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Tool.h">
+      <Filter>02.GameObjects\99.Camera\01.ToolCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Waver.h">
+      <Filter>02.GameObjects\02.Pawn\02.Waver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GraplingPoint.h">
+      <Filter>02.GameObjects\06.GraplingPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Beam.h">
+      <Filter>02.GameObjects\04.Projectile\Beam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Trail.h">
+      <Filter>02.GameObjects\95.Trail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SkillIconBack.h">
+      <Filter>02.GameObjects\98.Ui\Skill\SkillIconBack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SkillIcon.h">
+      <Filter>02.GameObjects\98.Ui\Skill\SkillIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShockWave.h">
+      <Filter>02.GameObjects\04.Projectile\ShockWave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AIm.h">
+      <Filter>02.GameObjects\98.Ui\Aim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnemyManager.h">
+      <Filter>95.Manager\03.EnemyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Spark.h">
+      <Filter>02.GameObjects\05.Effect\Spark</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Blood.h">
+      <Filter>02.GameObjects\05.Effect\Blood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_GamePlay.h">
+      <Filter>01.Levels\GamePlay\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Lab.h">
+      <Filter>01.Levels\GamePlay\Lab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LabMap.h">
+      <Filter>02.GameObjects\97.Map\01.Lab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Samurai.h">
+      <Filter>02.GameObjects\02.Pawn\03.Samurai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss.h">
+      <Filter>02.GameObjects\02.Pawn\04.Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Boss.h">
+      <Filter>01.Levels\GamePlay\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LastMap.h">
+      <Filter>02.GameObjects\97.Map\02.Last</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Load_Include.h">
+      <Filter>01.Levels\Loading\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HpBar.h">
+      <Filter>02.GameObjects\98.Ui\HpBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Wire.h">
+      <Filter>02.GameObjects\94.Wire</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Client.cpp">
+      <Filter>98.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>98.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainApp.cpp">
+      <Filter>01.Levels\00.MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Loading.cpp">
+      <Filter>01.Levels\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Logo.cpp">
+      <Filter>01.Levels\Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Loader.cpp">
+      <Filter>01.Levels\Loading\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BackGround.cpp">
+      <Filter>02.GameObjects\00.BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Terrain.cpp">
+      <Filter>02.GameObjects\01.Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_TPV.cpp">
+      <Filter>02.GameObjects\99.Camera\00.ThirdPersonView</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PistolGunner.cpp">
+      <Filter>02.GameObjects\02.Pawn\00.PistolGunner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainSkill.cpp">
+      <Filter>02.GameObjects\98.Ui\Skill\MainBackground</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainBorder.cpp">
+      <Filter>02.GameObjects\98.Ui\Skill\MainBorder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SkillEnergyBar.cpp">
+      <Filter>02.GameObjects\98.Ui\Skill\MainEnergyBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainSkillIcon.cpp">
+      <Filter>02.GameObjects\98.Ui\Skill\MainSkillIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Ui_Controller.cpp">
+      <Filter>96.Controller\UiController\SkillUi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PlayerArm.cpp">
+      <Filter>02.GameObjects\03.Player\PlayerArm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Tool.cpp">
+      <Filter>01.Levels\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MapManager.cpp">
+      <Filter>96.Controller\MapController</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PlayerManager.cpp">
+      <Filter>95.Manager\00.PlayerManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GameManager.cpp">
+      <Filter>95.Manager\01.GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KillRunMap.cpp">
+      <Filter>02.GameObjects\97.Map\00.KillRun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sky.cpp">
+      <Filter>02.GameObjects\96.SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Pistol.cpp">
+      <Filter>02.GameObjects\02.Pawn\00.PistolGunner\Pistol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Katana.cpp">
+      <Filter>02.GameObjects\03.Player\Katana</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Bullet.cpp">
+      <Filter>02.GameObjects\04.Projectile\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Uzi.cpp">
+      <Filter>02.GameObjects\02.Pawn\01.Uzi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ObjPoolManager.cpp">
+      <Filter>95.Manager\02.ObjectPoolManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect.cpp">
+      <Filter>02.GameObjects\05.Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Tool.cpp">
+      <Filter>02.GameObjects\99.Camera\01.ToolCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Waver.cpp">
+      <Filter>02.GameObjects\02.Pawn\02.Waver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GraplingPoint.cpp">
+      <Filter>02.GameObjects\06.GraplingPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Beam.cpp">
+      <Filter>02.GameObjects\04.Projectile\Beam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Trail.cpp">
+      <Filter>02.GameObjects\95.Trail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SkillIconBack.cpp">
+      <Filter>02.GameObjects\98.Ui\Skill\SkillIconBack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SkillIcon.cpp">
+      <Filter>02.GameObjects\98.Ui\Skill\SkillIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShockWave.cpp">
+      <Filter>02.GameObjects\04.Projectile\ShockWave</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AIm.cpp">
+      <Filter>02.GameObjects\98.Ui\Aim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnemyManager.cpp">
+      <Filter>95.Manager\03.EnemyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Spark.cpp">
+      <Filter>02.GameObjects\05.Effect\Spark</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Blood.cpp">
+      <Filter>02.GameObjects\05.Effect\Blood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_GamePlay.cpp">
+      <Filter>01.Levels\GamePlay\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Lab.cpp">
+      <Filter>01.Levels\GamePlay\Lab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LabMap.cpp">
+      <Filter>02.GameObjects\97.Map\01.Lab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Samurai.cpp">
+      <Filter>02.GameObjects\02.Pawn\03.Samurai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss.cpp">
+      <Filter>02.GameObjects\02.Pawn\04.Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Boss.cpp">
+      <Filter>01.Levels\GamePlay\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LastMap.cpp">
+      <Filter>02.GameObjects\97.Map\02.Last</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HpBar.cpp">
+      <Filter>02.GameObjects\98.Ui\HpBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Wire.cpp">
+      <Filter>02.GameObjects\94.Wire</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Client.ico">
+      <Filter>98.Default</Filter>
+    </Image>
+    <Image Include="small.ico">
+      <Filter>98.Default</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc">
+      <Filter>98.Default</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt">
+      <Filter>98.Default</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_UiGauge.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxBullet.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxRectInstance.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimMesh.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxCube.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxMesh.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPointInstance.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPosTex.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
