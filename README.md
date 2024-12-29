@@ -8,8 +8,6 @@
 
 ![image](https://github.com/user-attachments/assets/7b07148c-733c-4ab6-8c73-db9b03443951)
 
-<hr/>
-
 ---
 
 ## 링크  
