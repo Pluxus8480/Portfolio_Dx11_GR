@@ -10,7 +10,12 @@
 
 <hr/>
 
-Youtube https://youtu.be/e-euy_yL7h0?si=sXFxs6E3MXFHnevU
+---
+
+## 링크  
+[Ghost Runner 프로젝트 데모 영상](https://www.youtube.com/watch?v=e-euy_yL7h0)
+
+---
 
 # Extend Library Dependancy
 
@@ -31,13 +36,13 @@ Youtube https://youtu.be/e-euy_yL7h0?si=sXFxs6E3MXFHnevU
 - **기간:** 2024.06 ~ 2024.08  
 - **팀 프로젝트 여부:** X  
 - **기술 스택:**  
-  C, C++, STL, FMOD, Win API, OpenCV, DLL, DirectX 11, vcpkg, HLSL, Effects11, Assimp, ImGui, ImGuizmo, DirectXTK, DirectMath, Nvidia PhysX 5.3  
+  C, C++, STL, FMOD, Win API, OpenCV, DLL, DirectX 11, vcpkg, HLSL, Effects11, Assimp, ImGui, ImGuizmo, DirectXTK, DirectMath, Nvidia PhysX 5.3 , DLL
 - **IDE:** Visual Studio  
 
 ---
 
 ## 목적 및 설명
-학원 커리큘럼을 통해 제작한 FPS 와이어 액션 게임 *Ghost Runner*의 기본 조작 및 액션, 스테이지 구성, 보스 제작 등을 진행한 개인 프로젝트입니다.  
+DirectX 11을 이용해 제작하였고 FPS 와이어 액션 게임 *Ghost Runner*의 기본 조작 및 액션, 스테이지 구성, 보스 제작 등을 개발 전반을 진행한 개인 프로젝트입니다.  
 상용 엔진을 사용하지 않고 엔진 부분을 직접 DLL로 작업하여 클라이언트와 엔진을 분리하는 방식으로 개발했습니다.
 
 ---
@@ -95,11 +100,6 @@ Youtube https://youtu.be/e-euy_yL7h0?si=sXFxs6E3MXFHnevU
 - 기본 직선 운동 대신 포물선 운동과 중간 대쉬를 결합한 복잡한 물리 동작을 구현.  
 - Wire State를 출발 가속, 원점 도착, 감속 도착으로 나누어 세밀한 움직임 제어를 가능하게 했습니다.  
 - 점프, 슬라이딩과의 물리 공식 차이를 극복하며 사실적인 와이어 액션을 구현했습니다.
-
----
-
-## 링크  
-[Ghost Runner 프로젝트 데모 영상](https://www.youtube.com/watch?v=e-euy_yL7h0)
 
 ---
 
