@@ -89,9 +89,13 @@ DirectX 11을 이용해 제작하였고 FPS 와이어 액션 게임 *Ghost Runne
 
    - 대쉬, 해킹, 원거리 검기 공격 등 스킬을 구현하였습니다.
 
-![시퀀스 01_6](https://github.com/user-attachments/assets/01c21d0e-a7b0-4655-afdb-74d081b617fc)
+![검기](https://github.com/user-attachments/assets/b1c62f24-8b34-4f52-8059-37e3ec49ddbd)
+![해킹](https://github.com/user-attachments/assets/a0c1f62b-71f3-4550-bb1b-93e92f1130ae)
 
    - 불릿 타임 기능을 추가하여 투사체를 피하거나 패링할 수 있게 설계했습니다.
+   - 
+![시퀀스 01_6](https://github.com/user-attachments/assets/01c21d0e-a7b0-4655-afdb-74d081b617fc)
+  
    - 점프와 같은 물리는 점프 시작과 점프 루프, 착지와 같이 여러 분기처리를 하고 애니메이션을 연동하는 예외적인 부분도 전부 처리하였습니다.
    - 점프, 슬라이딩 등 다양한 물리 계산 및 Quake식 가속을 활용해 속도감을 높였습니다.  
    - 소드 트레일 효과를 통해 검 휘두를 때 궤적을 표현했습니다.
