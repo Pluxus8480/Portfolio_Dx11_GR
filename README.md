@@ -93,7 +93,7 @@ DirectX 11을 이용해 제작하였고 FPS 와이어 액션 게임 *Ghost Runne
 ![해킹](https://github.com/user-attachments/assets/a0c1f62b-71f3-4550-bb1b-93e92f1130ae)
 
    - 불릿 타임 기능을 추가하여 투사체를 피하거나 패링할 수 있게 설계했습니다.
-   - 
+
 ![시퀀스 01_6](https://github.com/user-attachments/assets/01c21d0e-a7b0-4655-afdb-74d081b617fc)
   
    - 점프와 같은 물리는 점프 시작과 점프 루프, 착지와 같이 여러 분기처리를 하고 애니메이션을 연동하는 예외적인 부분도 전부 처리하였습니다.
