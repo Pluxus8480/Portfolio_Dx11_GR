@@ -51,9 +51,164 @@ DirectX 11을 이용해 제작하였고 FPS 와이어 액션 게임 *Ghost Runne
    - 게임 로딩 속도를 단축하기 위해 멀티스레딩 로드를 구현했습니다.  
    - 리소스를 별도의 스레드에서 로드하고, 메인 스레드가 초기화 작업을 병렬로 처리하도록 구성하여 로딩 시간을 크게 줄였습니다.
 
+  <details>
+    <summary>코드 구현 펼치기</summary>
+  
+```
+ ----
+ // Model.cpp 파일에서 모델 로딩에 사용하는 함수입니다.
+  void CModel::Init_Model_Internal(shared_ptr<MODEL_DATA> pModelData, const string& szTexturePath, _uint iTimeScaleLayer)
+{
+  //스레드들을 일괄적으로 관리하는 벡터를 생성합니다.
+	std::vector<std::thread> threads;
+
+	m_iNumMeshes = pModelData->iNumMeshs;
+	m_eModelType = pModelData->eModelType;
+	XMStoreFloat4x4(&m_TransformMatrix, XMMatrixScaling(0.01f,0.01f,0.01f));
+
+  
+	if (szTexturePath.empty())
+	{
+  // 캐싱된 모델 데이터들은 호출 파라미터를 비우고 모델 데이터 안에 들어있는 경로 데이터를 직접 호출해서 스레드에 추가합니다. 
+
+		char szDir[MAX_PATH];
+		_splitpath_s(m_pModelData->szModelFilePath.c_str(), nullptr, 0, szDir, MAX_PATH, nullptr, 0, nullptr, 0);
+		threads.emplace_back(&CModel::Create_Materials, this, szDir);
+	}
+	else
+	{
+
+  //캐싱되지 않은 데이터들은 파라미터로 들어온 모델 경로 데이터를 그대로 받습니다.
+		threads.emplace_back(&CModel::Create_Materials, this, szTexturePath.c_str());
+	}
+
+	Create_Bone(m_pModelData.get()->RootNode, 0);
+
+	threads.emplace_back(&CModel::Mesh_Array, this, pModelData);
+
+  //모든 스레드가 join 될때까지 대기합니다.
+	for (auto& th : threads) {
+		if (th.joinable()) {
+			th.join();
+		}
+	}
+
+	Create_Animations();
+
+}
+----
+
+----
+
+HRESULT CModel::Create_Materials(const _char* pModelFilePath)
+{
+	//unique_lock<shared_mutex> lock(m_MaterialMtx);
+
+	vector<thread> Matthreads;
+
+	/* 모델에는 여러개의 머테리얼이 존재한다. */
+	/* 각 머테리얼마다 다양한 재질(Diffuse, Ambient,Specular...)을 텍스쳐로 표현한다. */
+	m_iNumMaterials = m_pModelData->iNumMaterials;
+
+	for (size_t i = 0; i < m_iNumMaterials; i++)
+	{
+		MATERIAL_DATA* pMaterial = m_pModelData->Material_Datas[i].get();
+
+		MATERIAL_MESH			MeshMaterial = {};
+
+		for (size_t j = 1; j < AI_TEXTURE_TYPE_MAX; j++)
+		{
+
+			_char		szFullPath[MAX_PATH] = {};
+			/* 모델파일경로로부터 뜯어온 문자열. */
+			_char		szDrive[MAX_PATH] = {};
+			_char		szDir[MAX_PATH] = {};
+
+			/* 모델파일(aiScene)로부터 뜯어온 문자열. */
+			_char		szFileName[MAX_PATH] = {};
+			_char		szExt[MAX_PATH] = {};
+			_char		strTga[] = ".tga";
+			
+			_splitpath_s(pModelFilePath, szDrive, MAX_PATH, szDir, MAX_PATH, nullptr, 0, nullptr, 0);
+			_splitpath_s(pMaterial->szTextureName[j].data(), nullptr, 0, nullptr, 0, szFileName, MAX_PATH, szExt, MAX_PATH);
+
+			if(szFileName[0] == '\0')
+				continue;
+
+			if(strcmp(szExt, strTga) == false) {
+				strcpy_s(szExt, ".dds");
+			}
+
+			strcpy_s(szFullPath, szDrive);
+			strcat_s(szFullPath, szDir);
+			strcat_s(szFullPath, szFileName);
+			strcat_s(szFullPath, szExt);
+
+			_tchar		szPerfectPath[MAX_PATH] = {};
+
+			MultiByteToWideChar(CP_ACP, 0, szFullPath, (_int)strlen(szFullPath), szPerfectPath, MAX_PATH);
+      
+      //머테리얼을 로드하기 전에 이미 로드되었는지 확인한 후에 중복 경로를 참조할 경우에 주소값만 넘겨서 로딩을 스킵합니다.
+			MeshMaterial.pTextures[j] = GAMEINSTANCE->Auto_Search_Texture(szPerfectPath);
+			
+			if (nullptr == MeshMaterial.pTextures[j])
+				return E_FAIL;
+		}
+
+		m_Materials.emplace_back(MeshMaterial);
+	}
+
+	for (auto& th : Matthreads) {
+		if (th.joinable()) {
+			th.join();
+		}
+	}
+
+	return S_OK;
+}
+....
+
+```
+</details>
+
 ### 2. **오브젝트 풀링을 이용한 투사체 최적화**  
    - 반복적으로 생성 및 소멸되는 오브젝트를 효율적으로 관리하기 위해 오브젝트 풀링(Object Pooling) 기법을 적용했습니다.  
    - 이를 통해 메모리 할당과 해제를 최소화하고 성능을 개선했습니다.
+
+  <details><summary>코드 구현 펼치기</summary>
+
+    //오브젝트를 관리하는 CObjPoolManager 싱글톤 객체를 만들어 풀 객체를 관리하였습니다.
+    
+    void CObjPoolManager::BeamPooling()
+    {
+        //의미 없는 좌표에 객체들을 미리 다 만들어 둔 다음, Sleep 상태로 변경하여 오브젝트 레이어에 보관하여 둡니다.
+        CTransform::TRANSFORM_DESC			TransformDesc{};
+        TransformDesc.vPosition = _float4(9999.f, 9999.f, 9999.f, 1.f);
+        TransformDesc.fSpeedPerSec = 8.f;
+        TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
+    
+        for (_uint i = 0; i < iBulletCnt; ++i)
+        {
+            m_BeamList.emplace_back(dynamic_cast<CBeam*>(m_pGameInstance->Add_Clone_Return(LEVEL_STATIC, TEXT("Layer_Monster"), TEXT("Prototype_GameObject_Beam"), &TransformDesc)));
+        }
+    
+    }
+    
+    CBeam* CObjPoolManager::BeamAwake(void* pArg)
+    {
+        //필요할 경우 Awake 함수를 호출하여 SLEEP 상태인 객체를 꺼내 파라미터를 입력하여 작동시킵니다.
+        for (auto& Beam : m_BeamList)
+        {
+            if (Beam->Get_ContainState() == CContainedObject::CONTAIN_SLEEP)
+            {
+                Beam->Activate(pArg);
+                return Beam;
+            }
+        }
+    
+        return nullptr;
+      }
+  </details>
 
 ### 3. **멀티 렌더 타겟과 Deferred 쉐이더 처리 기법**  
    - 여러 렌더 타겟과 Deferred Shading 기술을 활용하여 조명, 그림자, Glow, Blur 등의 후처리 효과를 구현했습니다.  
