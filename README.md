@@ -472,6 +472,7 @@ HRESULT CModel::Create_Materials(const _char* pModelFilePath)
 	
 	}
 </details>
+
 ### 5. **메쉬 데이터 직렬화를 통한 최적화**  
    - 메쉬 데이터를 이진 직렬화하여 파일 크기를 줄이고, 로드 시간을 단축했습니다.  
    - 대규모 스테이지 로딩 시 지연 시간을 효과적으로 감소시켰습니다.
