@@ -631,8 +631,66 @@ HRESULT CModel::Create_Materials(const _char* pModelFilePath)
 <details><summary>코드 구현 펼치기</summary>
 ```
 
+ 	// Samurai.cpp
+	// CSamurai 클래스의 상태 머신(State Machine) 함수입니다.
+	// 이 함수는 사무라이 객체의 상태를 관리하며, 각 상태에 따라 적절한 동작을 실행합니다.
+	void CSamurai::State_Machine(_float fTimeDelta)
+	{
+	    // 사무라이의 첫 번째 파츠(예: 칼)를 활성화합니다.
+	    dynamic_cast<CKatana*>(m_vecParts[0])->Set_On(true);
+
+    // 키 입력(eKeyCode::R)으로 초기 상태로 리셋
+    if (GAMEINSTANCE->GetKeyDown(eKeyCode::R)) {
+        // PhysX 콜라이더의 위치를 초기화
+        m_pPhysXCollider->Get_Controller()->setPosition(m_vInitPos);
+
+        // 사무라이 상태를 '대기(SAMURAI_IDLE)' 상태로 설정
+        m_eSamuraiState = SAMURAI_IDLE;
+
+        // 대시 상태를 '대시 종료(DASH_END)'로 설정
+        m_eDashState = DASH_END;
+
+        // 사무라이의 임시 사망 상태를 해제
+        Set_TempDead(false);
+    }
+
+    // 현재 사무라이 상태에 따라 적절한 동작을 실행
+    switch (m_eSamuraiState)
+    {
+        case SAMURAI_IDLE:
+            // 대기 상태 처리
+            State_Idle(fTimeDelta);
+            break;
+        case SAMURAI_SEARCH:
+            // 검색 상태 처리
+            State_Search(fTimeDelta);
+            break;
+        case SAMURAI_ATTACK:
+            // 공격 상태 처리
+            State_Attack(fTimeDelta);
+            break;
+        case SAMURAI_GUARD:
+            // 방어 상태 처리
+            State_Guard(fTimeDelta);
+            break;
+        case SAMURAI_DASH:
+            // 대시 상태 처리
+            State_Dash(fTimeDelta);
+            break;
+        case SAMURAI_STUN:
+            // 스턴 상태 처리
+            State_Stun(fTimeDelta);
+            break;
+        case SAMURAI_DIE:
+            // 사망 상태 처리
+            State_Die(fTimeDelta);
+            break;
+    }
+	}
+
 
 </details>
+
 ![시퀀스 01_5](https://github.com/user-attachments/assets/4afc3583-748b-415c-a53e-b3cf472a3603)
 
 ### 7. **ImGui 기반 맵 에디터**  
@@ -641,6 +699,53 @@ HRESULT CModel::Create_Materials(const _char* pModelFilePath)
 ### 8. **사운드 랜덤 재생 시스템**  
    - 사운드 랜덤 재생 시스템을 구축하여 플레이어 몰입도를 강화했습니다.  
    - 유사한 사운드를 무작위로 재생해 반복 효과음을 방지했습니다.
+
+<details><summary>코드 구현 펼치기</summary>
+```
+	
+	//Random 라이브러리를 이용한 
+	_int CMath_Manager::Random_Int(_int _iMin, _int _iMax)
+	{
+		std::random_device RD;
+		std::mt19937 gen(RD());
+	
+		std::uniform_int_distribution<_int> dis(_iMin, _iMax);
+	
+		return dis(gen);
+	}
+	//이런 코드로 랜덤 구현
+
+	switch (GAMEINSTANCE->Random_Int(1, 7)) {
+	case 1:
+		m_pGameInstance->Play(TEXT("Sound_Player_Katana_Parry_01"), false);
+		m_pGameInstance->SetVolume(TEXT("Sound_Player_Katana_Parry_01"), 0.25f);
+		break;
+	case 2:
+		m_pGameInstance->Play(TEXT("Sound_Player_Katana_Parry_02"), false);
+		m_pGameInstance->SetVolume(TEXT("Sound_Player_Katana_Parry_02"), 0.25f);
+		break;
+	case 3:
+		m_pGameInstance->Play(TEXT("Sound_Player_Katana_Parry_03"), false);
+		m_pGameInstance->SetVolume(TEXT("Sound_Player_Katana_Parry_03"), 0.25f);
+		break;
+	case 4:
+		m_pGameInstance->Play(TEXT("Sound_Player_Katana_Parry_04"), false);
+		m_pGameInstance->SetVolume(TEXT("Sound_Player_Katana_Parry_04"), 0.25f);
+		break;
+	case 5:
+		m_pGameInstance->Play(TEXT("Sound_Player_Katana_Parry_05"), false);
+		m_pGameInstance->SetVolume(TEXT("Sound_Player_Katana_Parry_05"), 0.25f);
+		break;
+	case 6:
+		m_pGameInstance->Play(TEXT("Sound_Player_Katana_Parry_06"), false);
+		m_pGameInstance->SetVolume(TEXT("Sound_Player_Katana_Parry_06"), 0.25f);
+		break;
+	case 7:
+		m_pGameInstance->Play(TEXT("Sound_Player_Katana_Parry_07"), false);
+		m_pGameInstance->SetVolume(TEXT("Sound_Player_Katana_Parry_07"), 0.25f);
+		break;
+	}
+</details>
 
 ### 9. **플레이어 제어**  
    - PhysX CCT에서 측면 충돌을 파악해 벽타기에 맞는 애니메이션과 카메라 회전을 구현하였습니다.
