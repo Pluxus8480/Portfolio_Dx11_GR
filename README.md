@@ -750,9 +750,77 @@ HRESULT CModel::Create_Materials(const _char* pModelFilePath)
 ### 9. **플레이어 제어**  
    - PhysX CCT에서 측면 충돌을 파악해 벽타기에 맞는 애니메이션과 카메라 회전을 구현하였습니다.
 
+<details><summary>코드 구현 펼치기</summary>
+```
+
+ 	//Camera_TPV.cpp
+	// 플레이어가 벽과 충돌 중이고, 'A' 키가 눌렸을 때 실행되는 동작
+ 	//PhysX 충돌 콜백 객체에 측면 충돌 여부 확인
+	if (true == m_pPhysXCollider->Get_CollisionSides() && GAMEINSTANCE->GetKey(eKeyCode::A)) {
+
+    // 롤 방향을 왼쪽(-1)으로 설정
+    m_iRollDirection = -1;
+
+    // Rigidbody 상태를 WIRE_END로 설정 (자유로운 물리 상태로 전환)
+    m_pRigidbody->Set_Grab(CRigidbody::WIRE_END);
+
+    // 플레이어 상태를 WIRE_END로 설정
+    PLAYER->Set_WireState(CPlayer_Manager::WIRE_END);
+
+    // 카메라 롤이 활성화되어 있는 경우
+    if (m_bCameraRoll == true) {
+        // 현재 롤 방향에 따라 카메라 회전을 설정 (헤드 롤 적용)
+        m_pTransformCom->Head_Roll(-1.f * m_fRollAngle * m_iRollDirection);
+    }
+
+    // 롤 각도 증가: 제한 각도(m_fRollAngleLimit)를 초과하지 않도록 처리
+    if (m_fRollAngle < m_fRollAngleLimit)
+        m_fRollAngle += fTimeDelta * 3.f; // 각도를 시간 델타에 따라 증가
+    else
+        m_fRollAngle = m_fRollAngleLimit; // 제한 각도로 설정
+
+    // 최종 롤 각도를 적용하여 카메라 회전
+    m_pTransformCom->Head_Roll(m_fRollAngle * m_iRollDirection);
+
+    // 플레이어 상태를 이동(PLAYER_MOVE) 상태로 설정
+    PLAYER->Set_PlayerState(CPlayer_Manager::PLAYER_MOVE);
+
+    // 벽 달리기 상태를 왼쪽 벽(WALLRUN_LEFT)으로 설정
+    PLAYER->Set_WallRunState(CPlayer_Manager::WALLRUN_LEFT);
+
+    // 카메라 롤 활성화 플래그 설정
+    m_bCameraRoll = true;
+	}
+ 
+</details>
+
 ![시퀀스 01_3](https://github.com/user-attachments/assets/e8135a88-427e-4cbb-9402-20f100eed3a4)
 
    - 대쉬, 해킹, 원거리 검기 공격 등 스킬을 구현하였습니다.
+
+<details><summary>코드 구현 펼치기</summary>
+```
+
+ 	//PistolGunner.cpp 파일
+	//PistolGunner 객체에서 플레이어 카메라 기준 레이캐스팅 실행
+	void CPistolGunner::Collision_RayHit()
+	{
+		//해킹 기술이 사용 가능한지 체크 후 통과
+		if (GAMEINSTANCE->GetKeyDown(eKeyCode::Q) && PLAYER->Get_Skill_Index() == CPlayer_Manager::SKILL_MINDCONTROL && PLAYER->Get_SkillUsable()) {
+			m_pGameInstance->Play(TEXT("Sound_Player_Skill_Full"), false);
+			m_pGameInstance->SetVolume(TEXT("Sound_Player_Skill_Full"), 1.f);
+			Set_Controlled(true);
+			PLAYER->Set_SkillGaugeZero();
+		}
+	}
+ 
+	//
+ 	if (m_bControlled == true) {
+	if(m_pTarget == nullptr)
+		m_pTarget = ENEMYMANAGER->Get_NearEnemy(this, 50.f);
+	}
+ 
+</details>
 
 ![검기](https://github.com/user-attachments/assets/b1c62f24-8b34-4f52-8059-37e3ec49ddbd)
 ![해킹](https://github.com/user-attachments/assets/a0c1f62b-71f3-4550-bb1b-93e92f1130ae)
