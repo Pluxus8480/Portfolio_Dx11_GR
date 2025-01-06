@@ -177,7 +177,7 @@ HRESULT CModel::Create_Materials(const _char* pModelFilePath)
 
   <details><summary>코드 구현 펼치기</summary>
 
-    //오브젝트를 관리하는 CObjPoolManager 싱글톤 객체를 만들어 풀 객체를 관리하였습니다.
+    //ObjPoolManager.cpp 파일에서 오브젝트를 관리하는 CObjPoolManager 싱글톤 객체를 만들어 풀 객체를 관리하였습니다.
     
     void CObjPoolManager::BeamPooling()
     {
@@ -214,20 +214,424 @@ HRESULT CModel::Create_Materials(const _char* pModelFilePath)
    - 여러 렌더 타겟과 Deferred Shading 기술을 활용하여 조명, 그림자, Glow, Blur 등의 후처리 효과를 구현했습니다.  
    - Deferred Shading 시에 더블 버퍼링 기법을 적용해 렌더 타겟 개수를 줄이고 메모리 성능을 최적화했습니다.
 
+<details><summary>코드 구현 펼치기</summary>
+```
+	
+	//Renderer.cpp 파일
+ 	//마지막 후처리 연산 코드이고, 이 파일 안에 일괄 빛 연산과 렌더 타겟, 멀티렌더타겟 등  여러 코드들이 있습니다. 
+	HRESULT CRenderer::Final_Deferred()
+	{
+    	// 마지막 렌더링 단계로, 빛 연산이 아닌 렌즈 효과와 화면 후처리 작업을 처리합니다.
+
+    #pragma region GlowPass
+    // Glow 효과를 처리하는 렌더 패스입니다.
+
+    // MRT(Multiple Render Target) 설정 시작 (Glow Front 타겟)
+    if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_GlowFront"))))
+        return E_FAIL;
+
+    // 이전 Glow Back 렌더 타겟을 셰이더의 g_GlowTexture로 바인딩
+    if (FAILED(m_pGameInstance->Bind_RT_SRV(TEXT("Target_GlowBack"), m_pShader, "g_GlowTexture")))
+        return E_FAIL;
+
+    // 정점 버퍼(VIBuffer) 바인딩
+    if (FAILED(m_pVIBuffer->Bind_Buffers()))
+        return E_FAIL;
+
+    // Glow 처리를 위한 셰이더 Pass(8번 Pass) 시작
+    m_pShader->Begin(8);
+
+    // 정점 버퍼 렌더링
+    m_pVIBuffer->Render();
+
+    // MRT 설정 종료
+    if (FAILED(m_pGameInstance->End_MRT()))
+        return E_FAIL;
+
+    //-----------------------------------------------------------------------------------------------------------------
+
+    // Double Buffer 플래그를 토글합니다.
+    // 동일한 렌더 타겟에 계속 그리는 것을 방지하기 위함입니다.
+    m_bDoubleBuffer = !m_bDoubleBuffer;
+
+    // Double Buffer 설정에 따라 MRT 설정
+    if (m_bDoubleBuffer) {
+        if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_DeferredBack"))))
+            return E_FAIL;
+        if (FAILED(m_pGameInstance->Bind_RT_SRV(TEXT("Target_DeferredFront"), m_pShader, "g_DeferredTexture")))
+            return E_FAIL;
+    } else {
+        if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_DeferredFront"))))
+            return E_FAIL;
+        if (FAILED(m_pGameInstance->Bind_RT_SRV(TEXT("Target_DeferredBack"), m_pShader, "g_DeferredTexture")))
+            return E_FAIL;
+    }
+
+    // Glow 효과 텍스처 바인딩
+    if (FAILED(m_pGameInstance->Bind_RT_SRV(TEXT("Target_GlowFront"), m_pShader, "g_GlowTexture")))
+        return E_FAIL;
+    
+    // 원본 Glow 텍스처를 바인딩하여 테두리 Glow 효과를 구현
+    if (FAILED(m_pGameInstance->Bind_RT_SRV(TEXT("Target_GlowBack"), m_pShader, "g_GlowOriginalTexture")))
+        return E_FAIL;
+
+    // 정점 버퍼(VIBuffer) 바인딩
+    if (FAILED(m_pVIBuffer->Bind_Buffers()))
+        return E_FAIL;
+
+    // Glow 효과 적용을 위한 셰이더 Pass(9번 Pass) 시작
+    m_pShader->Begin(9);
+
+    // 정점 버퍼 렌더링
+    m_pVIBuffer->Render();
+
+    // MRT 설정 종료
+    if (FAILED(m_pGameInstance->End_MRT()))
+        return E_FAIL;
+    #pragma endregion
+
+    #pragma region GlitchPass
+    // 화면에 Glitch 효과를 적용하는 렌더 패스입니다.
+
+    if (m_pGameInstance->Get_UseGlitchLens()) {
+
+        // Double Buffer 플래그를 토글합니다.
+        m_bDoubleBuffer = !m_bDoubleBuffer;
+
+        // Double Buffer 설정에 따라 MRT 설정
+        if (m_bDoubleBuffer) {
+            if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_DeferredBack"))))
+                return E_FAIL;
+            if (FAILED(m_pGameInstance->Bind_RT_SRV(TEXT("Target_DeferredFront"), m_pShader, "g_DeferredTexture")))
+                return E_FAIL;
+        } else {
+            if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_DeferredFront"))))
+                return E_FAIL;
+            if (FAILED(m_pGameInstance->Bind_RT_SRV(TEXT("Target_DeferredBack"), m_pShader, "g_DeferredTexture")))
+                return E_FAIL;
+        }
+
+        // Glitch 효과에 필요한 파라미터 바인딩
+        if (FAILED(m_pShader->Bind_Float("shake_power", m_pGameInstance->Get_GlitchPower())))
+            return E_FAIL;
+        if (FAILED(m_pShader->Bind_Float("shake_rate", m_pGameInstance->Get_GlitchRate())))
+            return E_FAIL;
+        if (FAILED(m_pShader->Bind_Float("shake_speed", m_pGameInstance->Get_GlitchSpeed())))
+            return E_FAIL;
+        if (FAILED(m_pShader->Bind_Float("TIME", m_pGameInstance->Random_Float(0.f, 1.f))))
+            return E_FAIL;
+        if (FAILED(m_pShader->Bind_Float("shake_color_rate", m_pGameInstance->Get_GlitchColorRate())))
+            return E_FAIL;
+        if (FAILED(m_pShader->Bind_Float("red_mix_rate", m_pGameInstance->Get_RedBlockMixRate())))
+            return E_FAIL;
+
+        // Death Texture 바인딩
+        m_pDeathTexture->Bind_ShaderResource(m_pShader, "g_DeathTexture", 0);
+
+        // Glitch 효과를 위한 상태 값 설정
+        _bool bUseRedBlock = m_pGameInstance->Get_UseRedBlockGlitch();
+        if (FAILED(m_pShader->Bind_RawValue("g_bUseRedGlitch", &bUseRedBlock, sizeof(_bool))))
+            return E_FAIL;
+
+        _bool bUseBlackScreen = m_pGameInstance->Get_BlackScreen();
+        if (FAILED(m_pShader->Bind_RawValue("g_bBlackScreen", &bUseBlackScreen, sizeof(_bool))))
+            return E_FAIL;
+
+        if (FAILED(m_pShader->Bind_Float("g_fBlackScreenRate", m_pGameInstance->Get_BlackScreenRate())))
+            return E_FAIL;
+
+        // 정점 버퍼(VIBuffer) 바인딩
+        if (FAILED(m_pVIBuffer->Bind_Buffers()))
+            return E_FAIL;
+
+        // Glitch 효과 적용을 위한 셰이더 Pass(6번 Pass) 시작
+        m_pShader->Begin(6);
+
+        // 정점 버퍼 렌더링
+        m_pVIBuffer->Render();
+
+        // Glitch 텍스처 해제
+        if (FAILED(m_pShader->Bind_SRV("g_DeferredTexture", nullptr)))
+            return E_FAIL;
+
+        // MRT 설정 종료
+        if (FAILED(m_pGameInstance->End_MRT()))
+            return E_FAIL;
+    }
+    #pragma endregion
+
+    #pragma region Blur
+    // Blur 효과를 적용하는 렌더 패스입니다.
+
+    if (m_pGameInstance->Get_BlurScreen()) {
+
+        // Double Buffer 플래그를 토글합니다.
+        m_bDoubleBuffer = !m_bDoubleBuffer;
+
+        // Double Buffer 설정에 따라 MRT 설정
+        if (m_bDoubleBuffer) {
+            if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_DeferredBack"))))
+                return E_FAIL;
+            if (FAILED(m_pGameInstance->Bind_RT_SRV(TEXT("Target_DeferredFront"), m_pShader, "g_DeferredTexture")))
+                return E_FAIL;
+        } else {
+            if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_DeferredFront"))))
+                return E_FAIL;
+            if (FAILED(m_pGameInstance->Bind_RT_SRV(TEXT("Target_DeferredBack"), m_pShader, "g_DeferredTexture")))
+                return E_FAIL;
+        }
+
+        // Blur 효과에 필요한 파라미터 바인딩
+        if (FAILED(m_pShader->Bind_Float("g_fBlueScreenRate", m_pGameInstance->Get_BlueScreenRate())))
+            return E_FAIL;
+        if (FAILED(m_pShader->Bind_Float("g_BlurStrength", m_pGameInstance->Get_BlurPower())))
+            return E_FAIL;
+
+        // Blur 효과를 위한 상태 값 설정
+        _bool bUseBlueScreen = m_pGameInstance->Get_BlueScreen();
+        if (FAILED(m_pShader->Bind_RawValue("g_bUseBlueScreen", &bUseBlueScreen, sizeof(_bool))))
+            return E_FAIL;
+
+        _bool bUseRedScreen = m_pGameInstance->Get_RedScreen();
+        if (FAILED(m_pShader->Bind_RawValue("g_bUseRedScreen", &bUseRedScreen, sizeof(_bool))))
+            return E_FAIL;
+
+        // 정점 버퍼(VIBuffer) 바인딩
+        if (FAILED(m_pVIBuffer->Bind_Buffers()))
+            return E_FAIL;
+
+        // Blur 효과 적용을 위한 셰이더 Pass(7번 Pass) 시작
+        m_pShader->Begin(7);
+
+        // 정점 버퍼 렌더링
+        m_pVIBuffer->Render();
+
+        // MRT 설정 종료
+        if (FAILED(m_pGameInstance->End_MRT()))
+            return E_FAIL;
+    }
+    #pragma endregion
+
+    // 최종 Deferred Texture를 셰이더에 바인딩
+    if (m_bDoubleBuffer) {
+        if (FAILED(m_pGameInstance->Bind_RT_SRV(TEXT("Target_DeferredBack"), m_pShader, "g_DeferredTexture")))
+            return E_FAIL;
+    } else {
+        if (FAILED(m_pGameInstance->Bind_RT_SRV(TEXT("Target_DeferredFront"), m_pShader, "g_DeferredTexture")))
+            return E_FAIL;
+    }
+
+    // 정점 버퍼(VIBuffer) 바인딩
+    if (FAILED(m_pVIBuffer->Bind_Buffers()))
+        return E_FAIL;
+
+    // 최종 합성 처리를 위한 셰이더 Pass(5번 Pass) 시작
+    m_pShader->Begin(5);
+
+    // 정점 버퍼 렌더링
+    m_pVIBuffer->Render();
+
+    return S_OK;
+	}
+
+</details>
+
 ![시퀀스 01_3](https://github.com/user-attachments/assets/e8135a88-427e-4cbb-9402-20f100eed3a4)
 
 ### 4. **PhysX와 직접 구현한 물리 엔진**  
    - NVIDIA PhysX를 활용하여 복잡한 메쉬 기반 충돌 처리를 구현했습니다.  
    - 직접 설계한 물리 엔진으로 캐릭터와 환경 간의 상호작용 요소를 추가했습니다.
-
+     
+<details><summary>코드 구현 펼치기</summary>
+```
+	
+	void CCamera_TPV::PriorityTick(_float fTimeDelta)
+	{
+		//Camera_HeadTilt_Reset(fTimeDelta);
+		Camera_Roll(fTimeDelta);
+	}
+	
+	void CCamera_TPV::Tick(_float fTimeDelta)
+	{
+ 		//강체 컴포넌트에 델타타임을 지속적으로 업데이트함으로써 속력 감속을 조절합니다.
+		m_pRigidbody->Update(fTimeDelta);
+		Key_Input(fTimeDelta);
+	
+	}
+	
+	void CCamera_TPV::LateTick(_float fTimeDelta)
+	{
+ 		//PhysX 시뮬레이트에서 물리 충돌이 일어난 회전을 제외한 좌표값만 참조받아 좌표 갱신을 하여 메쉬 충돌을 구현하였습니다. 
+		m_pPhysXCollider->Synchronize_Transform_Position(m_pTransformCom);
+		//이 이후에 카메라 포지션 기반 이펙트 넣는건 오케이(피젝스 포지션으로 다시 돌아가서 그냥 막 넣어도 됨)
+		if(PLAYER->Get_IsSlide() == true)
+			m_pTransformCom->Go_Down(PLAYER->Get_SlideOffset());
+	
+		Fall_Check();
+		Camera_Effect(fTimeDelta);
+	
+	}
+</details>
 ### 5. **메쉬 데이터 직렬화를 통한 최적화**  
    - 메쉬 데이터를 이진 직렬화하여 파일 크기를 줄이고, 로드 시간을 단축했습니다.  
    - 대규모 스테이지 로딩 시 지연 시간을 효과적으로 감소시켰습니다.
 
+<details><summary>코드 구현 펼치기</summary>
+```
+	
+	//ModelData.cpp 파일
+ 
+	const static _bool g_bUseAssimp = false;
+	
+	// MODEL_DATA 클래스에서 모델 데이터를 생성하는 함수입니다.
+	// 모델 데이터를 Assimp를 통해 로드하거나, 바이너리 파일로부터 로드합니다.
+	HRESULT MODEL_DATA::Make_ModelData(const char* szFilePath, const MODEL_TYPE& In_eModelType, _fmatrix In_TransformMatrix, _bool bAnimZero)
+	{
+	    // 모델 타입 저장
+	    eModelType = In_eModelType;
+
+    // 모델의 변환 행렬 저장
+    XMStoreFloat4x4(&TransformMatrix, In_TransformMatrix);
+
+    // 모델 파일 경로 저장
+    szModelFilePath = szFilePath;
+
+    // Assimp를 사용하여 모델 데이터를 로드하는 경우
+    if (true == g_bUseAssimp)
+    {
+        if (FAILED(Load_FromAssimp(bAnimZero))) // Assimp를 통해 모델 로드
+            return E_FAIL;
+
+        return S_OK;
+    }
+
+    // 바이너리 파일 경로 설정
+    string szBinFilePath;
+
+    // 경로 및 파일명 추출
+    char szDir[MAX_PATH] = "";
+    char szFileName[MAX_PATH] = "";
+
+    _splitpath_s(szModelFilePath.c_str(), nullptr, 0, szDir, MAX_PATH, szFileName, MAX_PATH, nullptr, 0);
+
+    // 바이너리 파일 경로 구성
+    szBinFilePath = szDir;
+    szBinFilePath += szFileName;
+    szBinFilePath += ".bin";
+    szModelFileName = szFileName;
+
+    // 바이너리 파일 읽기 시도
+    ifstream is(szBinFilePath, std::ios::binary);
+
+    // 바이너리 파일이 열리지 않거나 Assimp를 사용하려는 경우
+    if (!is.is_open() || g_bUseAssimp)
+    {
+        is.close(); // 파일 스트림 닫기
+        if (FAILED(Load_FromAssimp(bAnimZero))) // Assimp를 통해 모델 로드
+            return E_FAIL;
+    }
+    else
+    {
+        is.close(); // 파일 스트림 닫기
+        Load_FromBinary(); // 바이너리 파일로부터 모델 로드
+    }
+
+	#ifdef _DEBUG
+	    // 디버그 모드에서 애니메이션 로그를 생성합니다.
+	    if (MODEL_TYPE::ANIM == eModelType)
+	    {
+	        string szDebugFileName;
+
+        // 디버그 파일 경로 설정
+        szDebugFileName = "../bin/Debugs/";
+        szDebugFileName += szModelFileName;
+        szDebugFileName += ".txt";
+
+        // 디버그 로그 파일 출력 스트림 생성
+        ofstream fout(szDebugFileName);
+
+        // 디버그 로그 기록 (애니메이션, 노드, 메시 데이터)
+        Debug_AnimationLog(fout);
+        RootNode->Debug_NodeLog(fout);
+        Debug_MeshLog(fout);
+
+        fout.close(); // 디버그 로그 파일 닫기
+    }
+	#endif // _DEBUG
+
+    return S_OK; // 성공적으로 모델 데이터를 생성했음을 반환
+	}
+
+	// MODEL_DATA 클래스에서 바이너리 파일로 데이터를 저장(Bake)하는 함수입니다.
+	void MODEL_DATA::Bake_Binary()
+	{
+	    string szBinFilePath; // 바이너리 파일 경로를 저장할 변수
+
+    // 디렉터리와 파일명 추출을 위한 배열
+    char szDir[MAX_PATH] = "";
+    char szFileName[MAX_PATH] = "";
+
+    // szModelFilePath에서 디렉터리와 파일명을 추출
+    _splitpath_s(szModelFilePath.c_str(), nullptr, 0, szDir, MAX_PATH, szFileName, MAX_PATH, nullptr, 0);
+
+    // 바이너리 파일 경로 생성
+    szBinFilePath = szDir;
+    szBinFilePath += szFileName;
+    szBinFilePath += ".bin"; // 확장자를 .bin으로 설정
+
+    // 바이너리 파일 출력 스트림 생성
+    ofstream os(szBinFilePath, ios::binary);
+
+	#ifdef _DEBUG
+	    // 디버그 모드에서 파일이 정상적으로 열렸는지 확인
+	    assert(os.is_open());
+	#endif // _DEBUG
+
+    // 모델 데이터를 바이너리 파일에 순차적으로 기록
+    write_typed_data(os, TransformMatrix);  // 모델의 변환 행렬 기록
+    write_typed_data(os, iNumMeshs);        // 메시 개수 기록
+    write_typed_data(os, iNumMaterials);    // 재질(Material) 개수 기록
+    write_typed_data(os, iNumAnimations);   // 애니메이션 개수 기록
+    write_typed_data(os, eModelType);       // 모델 타입 기록
+    write_typed_data(os, VertexInfo);       // 정점(Vertex) 정보 기록
+
+    // 루트 노드의 데이터를 바이너리로 기록
+    RootNode->Bake_Binary(os);
+
+    // 각 재질 데이터를 바이너리로 기록
+    for (_uint i = 0; i < iNumMaterials; i++)
+    {
+        Material_Datas[i]->Bake_Binary(os);
+    }
+
+    // 각 메시 데이터를 바이너리로 기록
+    for (_uint i = 0; i < iNumMeshs; i++)
+    {
+        Mesh_Datas[i]->Bake_Binary(os);
+    }
+
+    // 각 애니메이션 데이터를 바이너리로 기록
+    for (_uint i = 0; i < iNumAnimations; i++)
+    {
+        Animation_Datas[i]->Bake_Binary(os);
+    }
+
+    // 파일 스트림 닫기
+    os.close();
+	}
+
+
+
+</details>
+
 ### 6. **몬스터 상태 제어 및 관리**  
    - 상태 머신(State Machine)을 설계하여 몬스터의 이동, 공격, 피격, 사망 상태를 체계적으로 관리했습니다.  
    - 다양한 행동 전환을 자연스럽게 구현하며, 난이도 조절 기능을 추가했습니다.
+<details><summary>코드 구현 펼치기</summary>
+```
 
+
+</details>
 ![시퀀스 01_5](https://github.com/user-attachments/assets/4afc3583-748b-415c-a53e-b3cf472a3603)
 
 ### 7. **ImGui 기반 맵 에디터**  
