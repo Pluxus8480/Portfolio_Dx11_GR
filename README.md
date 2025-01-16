@@ -54,7 +54,7 @@ DirectX 11을 이용해 제작하였고 FPS 와이어 액션 게임 *Ghost Runne
   <details>
     <summary>코드 구현 펼치기</summary>
   
-```
+```c++
  ----
  // Model.cpp 파일에서 모델 로딩에 사용하는 함수입니다.
   void CModel::Init_Model_Internal(shared_ptr<MODEL_DATA> pModelData, const string& szTexturePath, _uint iTimeScaleLayer)
