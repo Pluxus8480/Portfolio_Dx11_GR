@@ -45,21 +45,6 @@ void ANIMATION_DATA::Load_FromBinary(ifstream& is)
     read_typed_data(is, fDuration);
     read_typed_data(is, fTickPerSecond);
 
-    // TODO : !!! DO NOT ERASE !!!
-    // Temporary Macro for changing animation speed.
-    // undefined after use.
-#define SET_ANIM_SPEED(AnimationName, WantedSpeed)\
-    if (!strcmp(szName.c_str(), AnimationName))\
-    {\
-        fTickPerSecond *= WantedSpeed;\
-    }
-
-    SET_ANIM_SPEED("Joker_TakeExecution_Start", 1.36f)
-
-        SET_ANIM_SPEED("BossBat_TakeExecution_Start01", 1.006f);
-
-#undef SET_ANIM_SPEED
-
     for (_uint i(0); i < iNumChannels; i++)
     {
         shared_ptr<CHANNEL_DATA> pChannelData = make_shared<CHANNEL_DATA>();
