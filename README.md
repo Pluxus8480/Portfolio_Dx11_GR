@@ -6,7 +6,7 @@
 
 참고하여 만든 작품은 GhostRunner 라는 작품입니다.
 
-![image](https://github.com/user-attachments/assets/7b07148c-733c-4ab6-8c73-db9b03443951)
+![capsule_616x353](https://github.com/user-attachments/assets/22bccb16-6f87-44eb-b0b4-e79706ada7a2)
 
 ---
 
