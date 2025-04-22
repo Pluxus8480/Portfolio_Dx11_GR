@@ -58,6 +58,7 @@ DirectX 11을 이용해 제작하였고 FPS 와이어 액션 게임 *Ghost Runne
 ## 📌 FBX 기반 스키닝 애니메이션
 - FBX 모델에서 본(Bone) 및 채널 데이터를 추출하여 GPU 기반으로 스켈레탈 애니메이션 구현
 - Vertex Shader 내 Linear Blend Skinning 방식 사용
+- FBX모델을 자체 최적화하여 필요한 데이터만 뽑아내 이진화하여 캐싱하는 방식으로 최적화
 
 ## ⏳ Delta Time 기반 Bullet Time
 - 프레임 시간 간격(delta time)에 시간 배율(Time Scale)을 적용하여 불릿 타임(슬로우 모션 등) 구현
